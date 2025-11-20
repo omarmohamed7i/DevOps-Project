@@ -112,7 +112,8 @@ jobs:
     - name: Install gke-gcloud-auth-plugin
       run: |
         gcloud components install gke-gcloud-auth-plugin
-        
+        echo "$(gcloud info --format="value(installation.sdk_root)")/bin" >> $GITHUB_PATH
+
     - name: Get GKE credentials
       run: |
         gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER_NAME }} \
