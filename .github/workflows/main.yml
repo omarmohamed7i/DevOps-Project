@@ -109,15 +109,13 @@ jobs:
       with:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
         
-    - name: Install gke-gcloud-auth-plugin
-      run: |
-        gcloud components install gke-gcloud-auth-plugin
-        echo "$(gcloud info --format="value(installation.sdk_root)")/bin" >> $GITHUB_PATH
-
     - name: Get GKE credentials
-      run: |
-        gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER_NAME }} \
-          --zone ${{ secrets.GKE_CLUSTER_ZONE }}
+      uses: google-github-actions/get-gke-credentials@v2
+      with:
+        cluster_name: ${{ secrets.GKE_CLUSTER_NAME }}
+        location: ${{ secrets.GKE_CLUSTER_ZONE }}
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        credentials: ${{ secrets.GCP_SA_KEY }}
 
     - name: Create monitoring namespace
       run: |
@@ -179,9 +177,12 @@ jobs:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
 
     - name: Get GKE credentials
-      run: |
-        gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER_NAME }} \
-          --zone ${{ secrets.GKE_CLUSTER_ZONE }}
+      uses: google-github-actions/get-gke-credentials@v2
+      with:
+        cluster_name: ${{ secrets.GKE_CLUSTER_NAME }}
+        location: ${{ secrets.GKE_CLUSTER_ZONE }}
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        credentials: ${{ secrets.GCP_SA_KEY }}
 
     - name: Deploy to production
       run: |
@@ -284,10 +285,3 @@ jobs:
       with:
         sarif_file: 'trivy-results.sarif'
 
-# Required Secrets:
-# DOCKER_USERNAME: Docker Hub username (omaralaswar)
-# DOCKER_PASSWORD: Docker Hub password/access token
-# GCP_SA_KEY: Google Cloud service account key JSON
-# GCP_PROJECT_ID: GCP Project ID (devops-candidate-1)
-# GKE_CLUSTER_NAME: GKE cluster name (devops-gke)
-# GKE_CLUSTER_ZONE: GKE cluster zone (us-central1-a)
