@@ -1,0 +1,16 @@
+apiVersion: v2
+name: webapp
+description: A Helm chart for deploying the DevOps sample web application
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+
+keywords:
+  - nodejs
+  - express
+  - webapp
+  - devops
+
+maintainers:
+  - name: Omar Alaswar
+    email: omar.alaswar@example.com

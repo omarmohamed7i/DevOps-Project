@@ -1,0 +1,10 @@
+project_id   = "devops-candidate-1"
+region       = "us-central1"
+cluster_name = "devops-gke"
+node_count   = 2
+machine_type = "e2-medium"
+app_name     = "webapp"
+db_username = "pguser"
+db_password = "ChangeThisPassword!"
+db_database = "appdb"
+db_storage_class = "" # or "standard" if you want to pin a StorageClass
