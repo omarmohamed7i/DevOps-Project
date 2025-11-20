@@ -108,7 +108,7 @@ jobs:
       uses: google-github-actions/setup-gcloud@v2
       with:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
-        
+
     - name: Get GKE credentials
       uses: google-github-actions/get-gke-credentials@v2
       with:
@@ -117,12 +117,13 @@ jobs:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
         credentials: ${{ secrets.GCP_SA_KEY }}
 
-    - name: Create monitoring namespace
+    - name: Test kubectl connection
       run: |
-        kubectl create namespace monitoring --dry-run=client -o yaml | kubectl apply -f -
+        kubectl get nodes
 
     - name: Deploy Prometheus
       run: |
+        kubectl create namespace monitoring || true
         kubectl apply -f monitoring/prometheus.yaml
         kubectl rollout status deployment/prometheus -n monitoring --timeout=300s
 
