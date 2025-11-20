@@ -441,6 +441,34 @@ terraform destroy
 - **Reliability**: 99.9% uptime target
 - **Scalability**: Auto-scaling enabled
 
+
+## finally 
+```bash
+
+omar@Alaswar:~/Music/pikado-task/infra$ terraform destroy
+data.google_client_config.default: Reading...
+module.gke.google_project_service.required["storage.googleapis.com"]: Refreshing state... [id=devops-candidate-1/storage.googleapis.com]
+module.gke.google_project_service.required["compute.googleapis.com"]: Refreshing state... [id=devops-candidate-1/compute.googleapis.com]
+module.gke.google_project_service.required["container.googleapis.com"]: Refreshing state... [id=devops-candidate-1/container.googleapis.com]
+google_storage_bucket.static: Refreshing state... [id=devops-candidate-1-static-files]
+data.google_client_config.default: Read complete after 0s [id=projects/"devops-candidate-1"/regions/"us-central1"/zones/<null>]
+module.gke.google_compute_network.vpc: Refreshing state... [id=projects/devops-candidate-1/global/networks/devops-gke-vpc]
+module.gke.google_compute_subnetwork.subnet: Refreshing state... [id=projects/devops-candidate-1/regions/us-central1/subnetworks/devops-gke-subnet]
+module.gke.google_container_cluster.primary: Refreshing state... [id=projects/devops-candidate-1/locations/us-central1-a/clusters/devops-gke]
+module.gke.google_container_node_pool.primary_nodes: Refreshing state... [id=projects/devops-candidate-1/locations/us-central1-a/clusters/devops-gke/nodePools/devops-gke-pool]
+module.db.kubernetes_namespace.db: Refreshing state... [id=db]
+module.db.kubernetes_secret.postgres: Refreshing state... [id=db/postgres-credentials]
+module.db.kubernetes_service.postgres_headless: Refreshing state... [id=db/postgres]
+module.db.kubernetes_stateful_set.postgres: Refreshing state... [id=db/postgres]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # google_storage_bucket.static will be destroyed
+```
+
 ---
 
 ## 🚀 Ready for Production!
