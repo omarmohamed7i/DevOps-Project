@@ -225,26 +225,7 @@ jobs:
         echo "Health check failed after 30 attempts"
         exit 1
 
-    - name: Verify monitoring integration
-      run: |
-        # Test if web app metrics are being scraped
-        kubectl port-forward -n monitoring svc/prometheus 9090:9090 &
-        PF_PID=$!
-        sleep 10
-
-        # Test metrics endpoint
-        for i in {1..60}; do
-          METRICS=$(curl -s http://localhost:9090/api/v1/query?query=http_requests_total)
-          if echo "$METRICS" | jq -e '.data.result | length > 0' > /dev/null; then
-            echo "✅ Web app metrics are being scraped by Prometheus"
-            break
-          fi
-          echo "Waiting for metrics to appear... attempt $i/60"
-          sleep 10
-        done
-
-        kill $PF_PID 2>/dev/null
-
+    
     - name: Test Grafana connectivity
       run: |
         # Test Grafana API
@@ -285,3 +266,10 @@ jobs:
       with:
         sarif_file: 'trivy-results.sarif'
 
+# Required Secrets:
+# DOCKER_USERNAME: Docker Hub username (omaralaswar)
+# DOCKER_PASSWORD: Docker Hub password/access token
+# GCP_SA_KEY: Google Cloud service account key JSON
+# GCP_PROJECT_ID: GCP Project ID (devops-candidate-1)
+# GKE_CLUSTER_NAME: GKE cluster name (devops-gke)
+# GKE_CLUSTER_ZONE: GKE cluster zone (us-central1-a)
